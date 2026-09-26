@@ -28,6 +28,7 @@ const SIGNATURES = [
   { name: "Shoplift", category: "Testing", patterns: ["shoplift"], globals: ["shoplift"] },
   { name: "Intelligems", category: "Testing", patterns: ["intelligems"], globals: ["igData"] },
   { name: "VWO", category: "Testing", patterns: ["visualwebsiteoptimizer\\.com"], globals: ["VWO"] },
+  { name: "Visually", category: "Testing", patterns: ["visually\\.io", "visually-io"] },
   { name: "Optimizely", category: "Testing", patterns: ["optimizely\\.com"], globals: ["optimizely"] },
   { name: "Convert", category: "Testing", patterns: ["convertexperiments\\.com"] },
 
