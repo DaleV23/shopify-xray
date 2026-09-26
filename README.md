@@ -15,6 +15,8 @@ Click any unmatched extension or unrecognized domain to name it and pick a categ
 - **Copy as signatures.js entries** exports them so you can make them permanent or share them with your team
 
 ## How it works
+Full technical walkthrough: [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md)
+
 The popup injects `detect.js` into the page's **main world** via `chrome.scripting.executeScript({ world: "MAIN" })`. Content scripts run in an isolated world and can't read `window.Shopify`, so this step is required.
 
 Detection sources:
@@ -38,3 +40,6 @@ Add an entry to `signatures.js`:
 
 ## Limitations
 Only apps that load front-end code can be detected. Backend-only apps (inventory, ERP sync, etc.) are invisible, and headless storefronts may hide Shopify objects entirely.
+
+## Credits
+Designed and built by Dale. See more of my work at [dale-portfolio.vercel.app](https://dale-portfolio.vercel.app/).

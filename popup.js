@@ -12,7 +12,6 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": 
 const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const money = (cents, cur) => cents == null ? "—" : (cents / 100).toLocaleString(undefined, { style: cur ? "currency" : "decimal", currency: cur || undefined });
 
-// ---------- Learned signatures (chrome.storage.local) ----------
 async function loadLearned() {
   const data = await chrome.storage.local.get(STORE_KEY);
   learned = data[STORE_KEY] || [];
@@ -21,7 +20,7 @@ async function saveLearned() {
   await chrome.storage.local.set({ [STORE_KEY]: learned });
 }
 
-// "cdn.someapp.co.uk" -> "someapp.co.uk", "static.klaviyo.com" -> "klaviyo.com"
+// cdn.someapp.co.uk -> someapp.co.uk
 function rootDomain(host) {
   const parts = host.split(".");
   const twoPartTld = /^(co|com|net|org|gov|ac)$/.test(parts[parts.length - 2]) && parts[parts.length - 1].length === 2;
@@ -37,7 +36,6 @@ function patternFor(kind, value) {
     : `cdn\\.shopify\\.com/extensions/[^/]+/${reEsc(value)}(-[\\d.]+)?/`;
 }
 
-// ---------- Scan ----------
 async function scan() {
   view.innerHTML = '<p class="state">Scanning this page…</p>';
   actions.hidden = true;
@@ -50,7 +48,7 @@ async function scan() {
   try {
     const [{ result }] = await chrome.scripting.executeScript({
       target: { tabId: tab.id },
-      world: "MAIN",               // needed to read window.Shopify
+      world: "MAIN", // window.Shopify isn't visible from the isolated world
       func: xrayStore,
       args: [[...SIGNATURES, ...learned]]
     });
@@ -68,7 +66,6 @@ function showState(title, body) {
   view.innerHTML = `<p class="state"><strong>${esc(title)}</strong>${esc(body)}</p>`;
 }
 
-// ---------- Render ----------
 function render(r) {
   const t = r.theme;
   let themeHtml;
@@ -163,7 +160,6 @@ function learnedHtml() {
     </details>`;
 }
 
-// ---------- Label form ----------
 function openForm(kind, value) {
   document.querySelectorAll(".form-slot").forEach(s => (s.innerHTML = ""));
   document.querySelectorAll(".chip.active").forEach(c => c.classList.remove("active"));
@@ -205,7 +201,6 @@ async function saveLabel(form) {
   await scan();
 }
 
-// ---------- Events (delegated, since view re-renders) ----------
 view.addEventListener("click", async e => {
   const chipEl = e.target.closest(".chip[data-kind]");
   if (chipEl) return openForm(chipEl.dataset.kind, chipEl.dataset.value);
@@ -235,7 +230,6 @@ view.addEventListener("submit", e => {
   saveLabel(e.target);
 });
 
-// ---------- Report & clipboard ----------
 function buildReport(r) {
   const t = r.theme || {};
   const lines = [

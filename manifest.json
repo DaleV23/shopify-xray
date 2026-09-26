@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Shopify Store X-Ray",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "See the real theme, installed apps, and store details behind any Shopify storefront.",
   "permissions": ["activeTab", "scripting", "clipboardWrite", "storage"],
   "action": {

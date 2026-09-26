@@ -1,6 +1,5 @@
-// App signature list. patterns = regex strings tested against every loaded URL.
-// globals = window properties (dot paths allowed) that indicate the app.
-// Growing this list is how the extension gets smarter.
+// patterns: regex strings matched against loaded URLs
+// globals: window properties that point to the app
 const SIGNATURES = [
   // Reviews
   { name: "Judge.me", category: "Reviews", patterns: ["judge\\.me", "jdgm"], globals: ["jdgm"] },
@@ -25,7 +24,7 @@ const SIGNATURES = [
   { name: "Zipify", category: "Upsell & bundles", patterns: ["zipify"] },
   { name: "Bold", category: "Upsell & bundles", patterns: ["boldapps\\.net", "boldcommerce"] },
 
-  // Testing & CRO
+  // Testing
   { name: "Shoplift", category: "Testing", patterns: ["shoplift"], globals: ["shoplift"] },
   { name: "Intelligems", category: "Testing", patterns: ["intelligems"], globals: ["igData"] },
   { name: "VWO", category: "Testing", patterns: ["visualwebsiteoptimizer\\.com"], globals: ["VWO"] },
@@ -50,13 +49,13 @@ const SIGNATURES = [
   { name: "GemPages", category: "Page builder", patterns: ["gempages"] },
   { name: "Shogun", category: "Page builder", patterns: ["getshogun"] },
 
-  // Search & discovery
+  // Search & filters
   { name: "Searchanise", category: "Search & filters", patterns: ["searchanise"] },
   { name: "Boost Commerce", category: "Search & filters", patterns: ["boostcommerce", "bc-sf-filter"] },
   { name: "Algolia", category: "Search & filters", patterns: ["algolia"] },
   { name: "Nosto", category: "Search & filters", patterns: ["nosto\\.com"] },
 
-  // Loyalty & wishlist
+  // Loyalty
   { name: "Smile.io", category: "Loyalty", patterns: ["smile\\.io"] },
   { name: "LoyaltyLion", category: "Loyalty", patterns: ["loyaltylion"] },
   { name: "Rivo", category: "Loyalty", patterns: ["rivo\\.io"] },
@@ -68,7 +67,7 @@ const SIGNATURES = [
   { name: "Tidio", category: "Support", patterns: ["tidio"] },
   { name: "Zendesk", category: "Support", patterns: ["zdassets\\.com"] },
 
-  // Payments, shipping, translation
+  // Checkout, shipping, translation
   { name: "Afterpay", category: "Checkout & shipping", patterns: ["afterpay"] },
   { name: "Klarna", category: "Checkout & shipping", patterns: ["klarna"] },
   { name: "Route", category: "Checkout & shipping", patterns: ["routeapp\\.io"] },

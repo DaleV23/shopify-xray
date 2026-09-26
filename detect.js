@@ -1,11 +1,9 @@
-// Runs inside the page's MAIN world (injected by popup.js), so it can read
-// window.Shopify. Must be fully self-contained: no outside variables.
+// runs in the page via executeScript, so it can't reference anything outside itself
 async function xrayStore(signatures) {
   const S = window.Shopify;
   const hasCdn = !!document.querySelector('script[src*="cdn.shopify.com"], link[href*="cdn.shopify.com"]');
   if (!S && !hasCdn) return { isShopify: false };
 
-  // Theme: schema_name is the real theme even if the merchant renamed it
   const t = S && S.theme;
   const theme = t ? {
     name: t.name || null,
@@ -19,13 +17,12 @@ async function xrayStore(signatures) {
   const meta = (window.ShopifyAnalytics && window.ShopifyAnalytics.meta) || {};
   const pageType = (meta.page && meta.page.pageType) || null;
 
-  // Collect every URL the page loaded
   const urls = new Set();
   document.querySelectorAll("script[src]").forEach(s => urls.add(s.src));
   document.querySelectorAll("link[href]").forEach(l => urls.add(l.href));
   performance.getEntriesByType("resource").forEach(r => urls.add(r.name));
 
-  // Script tags registered by apps live inside Shopify's asyncLoad function
+  // app script tags get listed inside Shopify's asyncLoad()
   document.querySelectorAll("script:not([src])").forEach(s => {
     const txt = s.textContent || "";
     if (!txt.includes("asyncLoad")) return;
@@ -36,7 +33,6 @@ async function xrayStore(signatures) {
 
   const getGlobal = path => path.split(".").reduce((o, k) => (o == null ? undefined : o[k]), window);
 
-  // Match known apps
   const apps = [];
   for (const sig of signatures) {
     let evidence = null;
@@ -57,7 +53,7 @@ async function xrayStore(signatures) {
     if (evidence) apps.push({ name: sig.name, category: sig.category, evidence, learned: !!sig.learned });
   }
 
-  // Theme app extensions: cdn.shopify.com/extensions/<uuid>/<handle>-<version>/...
+  // cdn.shopify.com/extensions/<uuid>/<handle>-<version>/...
   const known = apps.map(a => a.name.toLowerCase().replace(/[^a-z0-9]/g, ""));
   const extensions = new Map();
   urlList.forEach(u => {
@@ -70,7 +66,6 @@ async function xrayStore(signatures) {
     extensions.set(m[1], { handle, uuid: m[1] });
   });
 
-  // Third-party domains nobody matched: raw material for new signatures
   const ignore = [location.hostname, "cdn.shopify.com", "shopify.com", "shopifycdn.com", "shopifysvc.com",
     "shopifycloud.com", "fonts.googleapis.com", "fonts.gstatic.com", "monorail-edge.shopifysvc.com"];
   const unknownDomains = new Set();
@@ -81,7 +76,6 @@ async function xrayStore(signatures) {
     if (!matched) unknownDomains.add(host);
   });
 
-  // Product JSON on product pages
   let product = null;
   if (pageType === "product" || /\/products\/[^/]+/.test(location.pathname)) {
     try {
