@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Shopify Store X-Ray</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="bar">
+    <div class="brand">
+      <img src="icons/icon32.png" alt="" width="20" height="20">
+      <span>Store X-Ray</span>
+    </div>
+    <button id="rescan" class="ghost" type="button" title="Scan this page again">Rescan</button>
+  </header>
+
+  <main id="view" aria-live="polite">
+    <p class="state">Scanning this page…</p>
+  </main>
+
+  <footer class="actions" id="actions" hidden>
+    <button id="copyReport" type="button">Copy report</button>
+    <button id="copyProduct" type="button" class="ghost" hidden>Copy product JSON</button>
+  </footer>
+
+  <script src="signatures.js"></script>
+  <script src="detect.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

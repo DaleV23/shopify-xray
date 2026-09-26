@@ -1,0 +1,201 @@
+/* Radiograph palette: film base with pale "bone" highlights */
+:root {
+  --film: #0f2536;
+  --film-2: #16334a;
+  --film-3: #1f4460;
+  --bone: #e3eef4;
+  --muted: #86a3b6;
+  --glow: #8fd8ec;
+  --warn: #f0bd7a;
+  --radius-lg: 10px;
+  --radius-sm: 5px;
+  --font: "Segoe UI Variable", "SF Pro Text", system-ui, -apple-system, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  width: 360px;
+  max-height: 590px;
+  margin: 0;
+  font: 13px/1.45 var(--font);
+  color: var(--bone);
+  background:
+    radial-gradient(120% 70% at 20% 0%, rgba(143, 216, 236, 0.12), transparent 60%),
+    var(--film);
+  display: flex;
+  flex-direction: column;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--film-3);
+}
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 600; letter-spacing: 0.01em; }
+
+main { overflow-y: auto; padding: 4px 14px 14px; flex: 1; }
+
+.state { color: var(--muted); padding: 24px 0; margin: 0; }
+.state strong { color: var(--bone); display: block; font-size: 15px; margin-bottom: 4px; }
+
+/* The one bold element: the theme reveal */
+.theme {
+  margin: 12px 0 14px;
+  padding: 14px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(160deg, var(--film-2), var(--film));
+  border: 1px solid var(--film-3);
+  box-shadow: inset 0 0 40px rgba(143, 216, 236, 0.06);
+}
+.theme-name {
+  font-size: 28px;
+  line-height: 1.05;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 0 18px rgba(143, 216, 236, 0.45);
+  margin: 0;
+  word-break: break-word;
+}
+.theme-sub { color: var(--muted); margin: 6px 0 0; }
+.theme-sub b { color: var(--glow); font-weight: 600; }
+.renamed { margin: 8px 0 0; font-size: 12px; color: var(--muted); }
+.renamed q { color: var(--bone); }
+
+.shop { color: var(--muted); font-size: 12px; margin-top: 10px; word-break: break-all; }
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--film-3);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.fact { background: var(--film); padding: 7px 9px; }
+.fact dt { color: var(--muted); font-size: 11px; }
+.fact dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+h2 {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 16px 0 6px;
+  display: flex;
+  justify-content: space-between;
+}
+h2 .count { color: var(--glow); font-variant-numeric: tabular-nums; }
+
+.group { margin-bottom: 8px; }
+.group h3 { font-size: 11px; font-weight: 500; color: var(--muted); margin: 10px 0 4px; }
+
+.app {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--film-3);
+}
+.app:last-child { border-bottom: 0; }
+.app-name { font-weight: 600; }
+.app-ev { color: var(--muted); font-size: 11px; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 55%; }
+
+.product { padding: 10px 12px; border-radius: var(--radius-sm); background: var(--film-2); }
+.product p { margin: 2px 0; }
+.product .muted { color: var(--muted); font-size: 12px; }
+
+details { margin-top: 12px; color: var(--muted); }
+summary { cursor: pointer; font-size: 12px; }
+summary:focus-visible { outline: 2px solid var(--glow); outline-offset: 2px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.chip { font-size: 11px; padding: 2px 6px; border-radius: var(--radius-sm); background: var(--film-2); color: var(--bone); }
+.chip.warn { background: rgba(240, 189, 122, 0.15); color: var(--warn); }
+
+.note { color: var(--muted); font-size: 11px; margin: 14px 0 0; }
+
+.actions {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--film-3);
+  background: var(--film);
+}
+
+button {
+  font: inherit;
+  font-weight: 600;
+  border: 0;
+  border-radius: var(--radius-sm);
+  padding: 7px 12px;
+  cursor: pointer;
+  background: var(--glow);
+  color: var(--film);
+}
+button.ghost { background: transparent; color: var(--bone); border: 1px solid var(--film-3); }
+button:hover { filter: brightness(1.08); }
+button:focus-visible { outline: 2px solid var(--bone); outline-offset: 2px; }
+.bar button { padding: 4px 10px; font-size: 12px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .theme-name { animation: develop 600ms ease-out; }
+  @keyframes develop {
+    from { opacity: 0; filter: blur(6px); }
+    to { opacity: 1; filter: blur(0); }
+  }
+}
+
+/* ---------- Self-learning UI ---------- */
+button.chip { font: inherit; font-size: 11px; font-weight: 500; border: 1px solid transparent; cursor: pointer; padding: 2px 6px; }
+button.chip:hover { border-color: var(--glow); filter: none; }
+button.chip.active { border-color: var(--glow); color: #fff; }
+
+.hint { font-size: 11px; margin: 6px 0 0; }
+
+.label-form {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  background: var(--film-2);
+  border: 1px solid var(--film-3);
+  display: grid;
+  gap: 8px;
+  color: var(--bone);
+}
+.form-title { margin: 0; font-size: 12px; color: var(--muted); }
+.form-title b { color: var(--glow); font-weight: 600; word-break: break-all; }
+.label-form label { display: grid; gap: 3px; font-size: 11px; color: var(--muted); }
+.label-form input, .label-form select {
+  font: inherit;
+  font-size: 13px;
+  color: var(--bone);
+  background: var(--film);
+  border: 1px solid var(--film-3);
+  border-radius: var(--radius-sm);
+  padding: 6px 8px;
+}
+.label-form input:focus-visible, .label-form select:focus-visible { outline: 2px solid var(--glow); outline-offset: 0; border-color: transparent; }
+.form-actions { display: flex; gap: 8px; }
+
+.tag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 5px;
+  margin-left: 4px;
+  border-radius: var(--radius-sm);
+  background: rgba(143, 216, 236, 0.15);
+  color: var(--glow);
+  vertical-align: 1px;
+}
+
+.learned-list { list-style: none; padding: 0; margin: 8px 0; }
+.learned-list li {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+  padding: 5px 0; border-bottom: 1px dashed var(--film-3); color: var(--bone);
+}
+.learned-list .muted { color: var(--muted); font-size: 11px; }
+button.link { background: none; color: var(--muted); padding: 0; font-size: 11px; font-weight: 500; text-decoration: underline; }
+button.link:hover { color: var(--warn); }
+button.small { font-size: 11px; padding: 4px 8px; }
